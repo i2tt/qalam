@@ -134,4 +134,7 @@ Patterns are sorted from strongest to weakest inside each section. Patterns 1 to
 
 The patterns come from the Wikipedia guide Signs of AI writing maintained by the WikiProject AI Cleanup, and from reviews of AI-generated text.
 
-Qalam is built on Humanizer by Siqi Chen at https://github.com/blader/humanizer and is released under the MIT License. The original copyright notice is kept in LICENSE.
+<p align="center">
+  <a href="https://github.com/i2tt"><img src="https://img.shields.io/badge/AgentcYper-GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="i2tt" /></a>
+  <a href="https://soar-team.xyz/"><img src="https://img.shields.io/badge/Website-soar--team.xyz-111111?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Website" /></a>
+</p>NSE.
