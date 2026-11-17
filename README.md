@@ -2,8 +2,6 @@
 
 Qalam is an agent skill that rewrites text which reads as AI-generated so that it reads as if a person wrote it while keeping every fact the text states
 
-It is a modified version of Humanizer by Siqi Chen and is based on the Wikipedia guide Signs of AI writing that Wikipedia editors use to spot AI-generated text
-
 The skill is a single file named SKILL.md with no plugins and no build step
 
 ## Before and after
