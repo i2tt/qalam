@@ -1,12 +1,14 @@
 # Qalam
 
-Qalam مهارة (Skill) للوكلاء الأذكياء تعيد كتابة النص الذي يبدو آلياً حتى يُقرأ كأن إنساناً كتبه وتحافظ على كل ما يقوله النص
+Qalam is an agent skill that rewrites text which reads as AI-generated so that it reads as if a person wrote it while keeping every fact the text states
 
-المهارة ملف واحد اسمه SKILL.md وليس فيها ملفات إضافات ولا خطوة بناء
+It is a modified version of Humanizer by Siqi Chen and is based on the Wikipedia guide Signs of AI writing that Wikipedia editors use to spot AI-generated text
 
-## قبل وبعد
+The skill is a single file named SKILL.md with no plugins and no build step
 
-قبل
+## Before and after
+
+Before
 
 > In today's fast-paced world the app is not just a note-taking tool but a journey toward organization
 >
@@ -14,125 +16,124 @@ Qalam مهارة (Skill) للوكلاء الأذكياء تعيد كتابة ا�
 >
 > I hope this helps
 
-بعد
+After
 
 > The app saves your notes to your phone automatically
 
-حذفت المهارة الافتتاحية المبالغ فيها وصيغة النفي ثم الإثبات والوعد بالمستقبل وعبارة الختام لأن النص لا يدعم أياً منها وأبقت الحقيقة الوحيدة التي ذكرها النص
+The rewrite removes the opening claim, the contrast formula, the productivity and future claims, and the closing line because the text gives no support for them. It keeps the one fact the text states.
 
-## ما الذي تغير عن النسخة الأصلية
+## What changed from the original
 
-- إزالة ملفات الإضافات وملفات التحقق الخاصة بالمنصات
-- قائمة حقائق تسجل الأسماء والأرقام والتواريخ والاقتباسات قبل التعديل وتقارن بها بعده
-- منع إضافة أي تفصيل لا يأتي من النص أو من المستخدم أو من مصدر مقروء في الجلسة
-- وضع المراجعة الذي يكشف العلامات من دون إعادة كتابة
-- نمط جديد للأرقام والأزمنة الغامضة
-- حماية النصوص التاريخية والترجمات القديمة من التحديث
+- Removed plugin files and platform-specific validation files
+- Added a fact ledger that records names, numbers, dates, and quotes before editing and checks the rewrite against it
+- Forbade adding any detail that does not come from the text, the user, or a source read in the session
+- Added review mode, which flags tells without rewriting
+- Added a section on vague figures (pattern 27)
+- Added a rule that output stays in the language and register of the input
+- Protected historical text and older translations from modernization
 
-## التثبيت
+## Installation
 
-مع Claude Code على ويندوز في PowerShell
+For Claude Code on Windows PowerShell
 
     git clone https://github.com/i2tt/qalam.git "$env:USERPROFILE\.claude\skills\qalam"
 
-مع Claude Code على macOS أو Linux
+For Claude Code on macOS or Linux
 
     git clone https://github.com/i2tt/qalam.git ~/.claude/skills/qalam
 
-مع أي وكيل آخر يدعم المهارات ضع ملف SKILL.md داخل مجلد اسمه qalam في مجلد المهارات الذي يقرأ منه الوكيل
+For any other agent that supports skills, place SKILL.md inside a folder named qalam in the skills folder that your agent reads from
 
-## الاستخدام
+## Usage
 
-- للصق نص مباشرة اكتب استخدم qalam على هذا النص ثم الصق النص
-- لملف اكتب استخدم qalam على الملف README.md
-- للفحص فقط اكتب افحص هذا النص بـ qalam من دون إعادة كتابة
-- للحفاظ على أسلوبك الصق معه عينة من كتابتك وستقدم المهارة العينة على القواعد
+- Pasted text: write "use qalam on this text" and paste the text
+- A file: write "use qalam on README.md"
+- Check only: write "check this text with qalam without rewriting"
+- To keep your own voice: paste a sample of your writing and the skill will follow the sample over the default rules
 
-## أوضاع العمل
+## Modes
 
-النص الملصوق يرجع منه مسودة وقائمة بالأنماط المتبقية والنسخة النهائية
+- Pasted text returns a draft, a list of remaining patterns, and the final version
+- File mode reads the whole file, edits prose only, leaves code, commands, paths, YAML, and link targets unchanged, and summarizes which sections it reviewed and which it did not cover
+- Embedded mode returns only the final text when another task uses the skill for a pull request, commit message, or document
+- Review mode returns each tell with its quote, pattern number, and strength, without rewriting
 
-وضع الملف يقرأ الملف كاملاً ويعدل النثر فقط ويترك الكود والأوامر والمسارات وبيانات YAML وروابط الاستهداف كما هي ثم يلخص عدد الأقسام التي راجعها وما لم يغطه
+## Method
 
-وضع التضمين يرجع النص النهائي فقط عندما تستخدم مهمة أخرى المهارة
+1. Record the facts in the text, then mark each AI pattern, strongest first
+2. Write a draft that keeps every supported claim
+3. Compare the draft with the fact ledger, then read it aloud and look for remaining AI patterns
+4. Write the final version in plain prose
 
-وضع المراجعة يرجع كل علامة مع اقتباسها ورقم نمطها وقوتها من دون أي إعادة كتابة
+## Patterns
 
-## طريقة العمل
+Patterns are sorted from strongest to weakest inside each section. Patterns 1 to 5 are enough on their own to justify an edit.
 
-1. تسجيل الحقائق الموجودة في النص ثم وضع علامة على كل نمط آلي بدءاً بالأقوى
-2. كتابة مسودة تحافظ على كل ادعاء مدعوم
-3. مقارنة المسودة بقائمة الحقائق ثم قراءتها بصوت مسموع والبحث عما بقي آلياً
-4. كتابة النسخة النهائية بصياغة طبيعية
+### A. Staging instead of stating
 
-## الأنماط
+1. Negation then affirmation (not X but Y)
+2. Short punchy closers and clipped phrases
+3. Phrases that suggest depth
+4. A lead-in before the point
+5. Answering an objection nobody raised
 
-الأنماط مرتبة من الأقوى إلى الأضعف داخل كل قسم والأنماط من 1 إلى 5 تكفي فيها ملاحظة واحدة لتبرر التعديل
+### B. Rhythm by rule
 
-### أ التمثيل بدل التصريح
+6. Forced triplets
+7. Repeated sentence openers
+8. Dashes as a catch-all connector
+9. Piled-up hedges
+10. Hyphenated compounds in every position
+11. Passive voice with the agent removed
 
-1. النفي ثم الإثبات (ليس كذا بل كذا)
-2. الجمل الختامية القصيرة والعبارات المقتطعة
-3. العبارات التي توحي بالعمق
-4. التمهيد قبل الفكرة
-5. الرد على اعتراض لم يقله أحد
+### C. Inflation and borrowed authority
 
-### ب الإيقاع بالقاعدة
+12. Words that models overuse
+13. Inflating importance
+14. Vague attribution
+15. Shallow commentary phrases
+16. Advertising language
+17. Citing unnamed authority
+18. Avoiding plain verbs such as is, are, and has
 
-6. الثلاثيات المفروضة
-7. تكرار بدايات الجمل
-8. الشرطات كأداة ربط شاملة
-9. تراكم عبارات التحفظ
-10. الكلمات المركبة بالواصلة في كل موضع
-11. المبني للمجهول وحذف الفاعل
+### D. Formatting by rule
 
-### ج التضخيم والاستناد إلى سلطة
+19. Bold text as decoration
+20. Decorative headings
+21. Curly quotation marks
 
-12. كلمات يكثر استخدام النماذج لها
-13. تضخيم الأهمية
-14. الربط الغامض
-15. عبارات التعليق السطحية
-16. لغة الإعلان
-17. الاستشهاد بسلطة غير مسماة
-18. تجنب الأفعال البسيطة مثل is وare وhas
+### E. Chatbot residue and drafting traces
 
-### د التنسيق بالقاعدة
+22. Chatbot residue
+23. Knowledge-cutoff and speculation disclaimers
+24. A heading repeated in the first sentence
+25. Writing about the document instead of its subject
 
-19. الخط العريض كزخرفة
-20. العناوين المزخرفة
-21. علامات الاقتباس المنحنية
+### F. Writing for the wrong reader
 
-### هـ بقايا المحادثة والمسودة
+26. Explaining what the reader already knows
 
-22. بقايا المحادثة
-23. تنبيهات حدود المعرفة والتخمين
-24. عنوان يتكرر في أول جملة
-25. الكتابة عن المستند بدل موضوعه
+### G. Vague figures
 
-### و الكتابة لقارئ خاطئ
+27. Vague quantities and times
 
-26. شرح ما يعرفه القارئ
+## When the skill does not act
 
-### ز الأرقام الغامضة
+- Text inside a quotation, heading, or proper name
+- Text written before November 30, 2022
+- Historical documents and older translations, which keep their vocabulary and spelling
+- Quran verses, hadith, poetry, and proverbs
+- Details that carry the author's voice, such as a rare fact, an honest hesitation, or a joke tied to its time
 
-27. الأرقام والأزمنة الغامضة
+## Repository layout
 
-## متى لا تتدخل المهارة
+- SKILL.md is the skill itself
+- README.md is this file
+- CHANGELOG.md is the version history
+- LICENSE is the MIT license
 
-- العبارات الموجودة داخل اقتباس أو عنوان أو اسم علم
-- النصوص المكتوبة قبل 30 نوفمبر 2022
-- النصوص التاريخية والترجمات القديمة فهي تحتفظ بمفرداتها وإملائها
-- التفاصيل التي تحمل صوت الكاتب مثل المعلومة النادرة والتردد الصادق والمزحة المرتبطة بزمنها
+## Source and license
 
-## هيكل المستودع
+The patterns come from the Wikipedia guide Signs of AI writing maintained by the WikiProject AI Cleanup, and from reviews of AI-generated text.
 
-- SKILL.md هو المهارة نفسها
-- README.md هذا الملف
-- CHANGELOG.md سجل الإصدارات
-- LICENSE رخصة MIT
-
-## المصدر والترخيص
-
-الأنماط مأخوذة من دليل ويكيبيديا Signs of AI writing الذي يديره مشروع WikiProject AI Cleanup ومن مراجعات لنصوص مولدة بالذكاء الاصطناعي
-
-المشروع مبني على Humanizer للمطور Siqi Chen على https://github.com/blader/humanizer ومنشور برخصة MIT مع الإبقاء على إشعار حقوق النشر الأصلي
+Qalam is built on Humanizer by Siqi Chen at https://github.com/blader/humanizer and is released under the MIT License. The original copyright notice is kept in LICENSE.
