@@ -4,8 +4,7 @@ description: |
   Rewrite AI-sounding text so it reads like the writer without changing what it says.
   Use when editing or reviewing prose for AI tells: not-X-but-Y contrasts, one-line
   closers, staged openers, forced triads, dashes everywhere, inflated claims, sales
-  language, stock AI words, bold labels, or filler. Works in English and Arabic.
-  Also runs as a review-only check that reports tells without rewriting.
+  language, stock AI words, bold labels, or filler. Also runs as a review-only check that reports tells without rewriting.
 license: MIT
 metadata:
   version: "5.0.0"
@@ -48,7 +47,7 @@ If the user gives a writing sample, read it first and match its sentence length,
 
 Without a sample, take the voice from the kind of text. Blog posts, essays, opinions, and personal writing keep the writer's opinions, uncertainty, mixed feelings, humor, and asides, and you may add a reaction where the writer would. Reference, technical, legal, and factual text stays neutral and plain. Once the tells are gone, the result must still sound like a person.
 
-**Language.** Write the rewrite in the language of the input and never translate it. Every pattern in this file applies to every language; §27 adds watch phrases for Arabic. Keep a dialect when the text is written in one: a Gulf Arabic message stays Gulf Arabic and is not converted to formal Arabic.
+**Language.** Write the rewrite in the language of the input and never translate it. Every pattern in this file applies to every language. Keep the register and dialect of the input.
 
 ### What to return
 
@@ -487,36 +486,11 @@ A model writes for a reader who shares no context, because that fits the widest 
 >
 > `MergeService` is shared code, so fixing it here means checking the merge flow for every account and backfilling the rows that are already wrong.
 
-## G. Other languages and vague figures
+## G. Vague figures
 
-The patterns in sections A to F apply in every language. This section adds watch phrases for Arabic and one tell about numbers that applies everywhere. An Arabic tell has the strength of the English pattern it matches. §28 is *weak alone*.
+### 27. Vague quantities and times
 
-### 27. Arabic tells
-
-**Watch for:** the contrast formula (ليس فقط ... بل أيضاً, لا يتعلق الأمر بـ ... بل بـ ..., ليس مجرد ... بل); staged openers (في عالم اليوم المتسارع, في ظل التطورات المتلاحقة, دعونا نتعرف على, في هذا المقال سنتحدث عن); sayings that sound deep (لا شك أن, من الجدير بالذكر, تجدر الإشارة إلى أن, يلعب دوراً محورياً, حجر الزاوية, ركيزة أساسية); inflation (نسيج غني, رحلة ملهمة, مستقبل واعد, آفاق رحبة, بصمة لا تمحى); closers (في الختام, خلاصة القول, وفي النهاية يمكن القول); chatbot residue (بالطبع!, سؤال ممتاز, آمل أن يكون هذا مفيداً, هل تريد أن أشرح أكثر, لا تتردد في سؤالي); clause tails that stand in for -ing phrases (مما يعزز, مما يسهم في, مما يعكس, بما يضمن); connectors that open every sentence (كما أن, فضلاً عن ذلك, علاوة على ذلك, حيث إن)
-
-**Problem:** Models write Arabic from stock formal phrases and carry English formulas over word for word. Remove the formula and state the point, as in §1 to §5. Several of these phrases are ordinary in formal Arabic prose, so a single connector or a single "تجدر الإشارة" is *weak alone*. The contrast formula, staged openers, closers, and chatbot residue keep the strength of their English counterparts.
-
-Rules for Arabic text:
-
-- Keep the register of the input. A dialect stays a dialect.
-- Do not add or remove diacritics.
-- Leave verses of the Quran, hadith, poetry, proverbs, and every other quotation exactly as written.
-- Keep Arabic punctuation (، ؛ ؟). §8 still applies to dashes.
-
-**Before:**
-> في عالم اليوم المتسارع، ليس التطبيق مجرد أداة للملاحظات، بل رحلة متكاملة نحو التنظيم. وتجدر الإشارة إلى أن التطبيق يحفظ ملاحظاتك تلقائياً على هاتفك، مما يعزز إنتاجيتك ويضمن لك مستقبلاً واعداً. آمل أن يكون هذا مفيداً!
-
-**After:**
-> التطبيق يحفظ ملاحظاتك على هاتفك تلقائياً.
-
-The rewrite drops the claims about productivity and the future because the text gives no support for them.
-
-For any other language, apply §1 to §26 to the equivalent constructions. If you do not know that language's stock phrases well, limit edits to §1, §2, §6, §8, and §22, and say so in the summary.
-
-### 28. Vague quantities and times
-
-**Watch for:** in recent years, recently, nowadays, many, numerous, a growing number of, a significant increase, studies show; in Arabic: في السنوات الأخيرة, كثير من, عدد متزايد من, دراسات تشير
+**Watch for:** in recent years, recently, nowadays, many, numerous, a growing number of, a significant increase, studies show
 
 **Problem:** A vague quantity or time stands where a figure belongs. Replace it with the figure only when the text, the user, or a source you have read gives it. Otherwise keep the vague wording, or cut the sentence if it carries nothing. Never invent a number to fix this. *Weak alone.*
 
@@ -543,6 +517,6 @@ Keep the details that carry the writer's voice unless they hurt the meaning:
 
 ## Source
 
-Qalam is a modified version of Humanizer by Siqi Chen (https://github.com/blader/humanizer), released under the MIT License. Version 5.0.0 adds the fact ledger, review mode, the language rule, section G, and the note on historical text.
+Released under the MIT License. See LICENSE.
 
 The patterns come from Wikipedia's ["Signs of AI writing"](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), maintained by WikiProject AI Cleanup, and from reviews of AI-generated text on Wikipedia and elsewhere.
